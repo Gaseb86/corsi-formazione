@@ -171,3 +171,33 @@ Se ci sono modifiche sia locali che remote, git pull può generare conflitti che
 
 In sintesi: `git pull` è il modo più diretto per sincronizzare il tuo branch locale con il corrispondente branch remoto, integrando subito tutte le novità.
 
+## Git Pull & Merge Conflicts
+
+Quando esegui `git pull`, può capitare che ci siano conflitti tra le modifiche locali e quelle presenti su GitHub (o altro remoto). Questo succede se tu e un collaboratore avete modificato lo stesso file in modo diverso.
+
+Esempio pratico:
+- Hai modificato coffee.txt localmente e fatto commit
+- Un collaboratore ha modificato coffee.txt su GitHub e fatto commit
+- Esegui `git pull origin food` per scaricare le modifiche
+- Git rileva un conflitto e ti chiede di risolverlo
+
+Per risolvere:
+1. Apri il file segnalato (es. coffee.txt) e scegli quali modifiche mantenere (puoi anche accettare entrambe)
+2. Salva il file
+3. Aggiungi il file risolto:
+   ```
+   git add coffee.txt
+   ```
+4. Fai commit della risoluzione:
+   ```
+   git commit -m "fix merge conflicts"
+   ```
+5. Ora puoi fare push:
+   ```
+   git push origin food
+   ```
+
+Dopo il push, il branch remoto sarà aggiornato con tutte le modifiche e la risoluzione del conflitto.
+
+Consiglio: prima di fare push, esegui sempre un pull per evitare conflitti e risolverli subito se ci sono.
+
