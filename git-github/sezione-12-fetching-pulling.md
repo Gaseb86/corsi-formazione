@@ -1,5 +1,19 @@
 # Sezione 12: Fetching & Pulling
 
+## Comandi fondamentali di Fetching & Pulling
+
+- `git branch -r` : Visualizza i branch remoti (remote tracking branches)
+- `git status` : Mostra lo stato del branch locale rispetto al remoto
+- `git checkout origin/nome-branch` : Esplora lo stato del branch remoto (modalità detached HEAD)
+- `git switch nome-branch` : Passa a un branch locale o crea e collega un branch locale a quello remoto
+- `git fetch` : Scarica le modifiche dal repository remoto senza integrarle
+- `git fetch origin nome-branch` : Scarica solo le modifiche di uno specifico branch remoto
+- `git pull` : Scarica e integra le modifiche dal repository remoto nel branch locale attivo
+- `git pull origin nome-branch` : Scarica e integra le modifiche di uno specifico branch remoto
+- Risoluzione conflitti: Modifica i file segnalati, `git add nome-file`, `git commit -m "fix merge conflicts"`, poi `git push`
+
+Questi comandi ti permettono di sincronizzare, esplorare e integrare le modifiche tra il tuo repository locale e quello remoto su GitHub.
+
 ## Remote tracking Branches: What are they?
 
 Questa sezione è dedicata a come ottenere il codice da GitHub sul proprio computer, fondamentale per collaborare con altri. Prima di parlare dei comandi git fetch e git pull, è importante capire come funziona la clonazione di un repository e il concetto di remote tracking branch.
