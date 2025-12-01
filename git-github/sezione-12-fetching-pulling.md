@@ -17,3 +17,35 @@ Questi riferimenti partono dallo stesso punto, ma possono divergere se fai nuovi
 
 Nei prossimi paragrafi vedrai come questi concetti sono utili per sincronizzare il tuo lavoro con quello degli altri.
 
+## Controllare e lavorare con i remote tracking branches
+
+Quando fai nuovi commit sul branch locale (es. main), il riferimento locale si aggiorna, mentre il remote tracking branch (es. origin/main) resta fermo all’ultimo stato noto su GitHub.
+
+Puoi vedere la differenza con:
+```
+git status
+```
+Se sei "head" di origin/main, significa che hai commit locali non ancora pushati.
+
+Puoi anche controllare lo stato del remote tracking branch con:
+```
+git branch -r
+```
+
+Se vuoi vedere com’era il progetto all’ultimo aggiornamento da GitHub, puoi fare:
+```
+git checkout origin/main
+```
+Questo ti porta in modalità detached HEAD: puoi esplorare, creare un nuovo branch, oppure tornare al branch principale con:
+```
+git switch main
+```
+
+Quando vuoi sincronizzare i tuoi commit locali con GitHub, usa:
+```
+git push origin main
+```
+Dopo il push, il remote tracking branch si aggiorna e il tuo branch locale sarà "up to date" con origin/main.
+
+Ripetendo il processo, puoi vedere come i riferimenti divergono e si riallineano dopo ogni push.
+
