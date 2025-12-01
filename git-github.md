@@ -15,5 +15,5 @@ Benvenuto al corso Git & GitHub!
 9. [Sezione 9: Repository remoti](#sezione-9-repository-remoti)
 10. [Sezione 10: Collaborazione su GitHub](#sezione-10-collaborazione-su-github)
 11. [Sezione 11: GitHub: The Basis](git-github/sezione-11-github.md)
-12. [Sezione 12: ](git-github/sezione-12-fetching-pulling.md)
+12. [Sezione 12: Fetching & Pulling](git-github/sezione-12-fetching-pulling.md)
 13. [Sezione 13: Github Grab Bag: Odd & Ends](git-github/sezione-13-grab-bag.md)
