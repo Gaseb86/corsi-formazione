@@ -112,3 +112,62 @@ Il tuo branch locale rimane invariato finché non esegui un merge o un pull.
 
 In sintesi: `git fetch` aggiorna i riferimenti remoti sul tuo computer, ma non tocca i tuoi file locali. È il modo più sicuro per vedere le novità prima di integrarle.
 
+## Dimostrazione pratica di Git Fetch
+
+Quando qualcuno aggiunge file o fa commit su GitHub, puoi usare `git fetch` per aggiornare i riferimenti remoti sul tuo computer.
+
+Esempio:
+- Un collaboratore aggiunge un file su GitHub (es. apple.txt su food, tinkerbell.txt su un branch movies).
+- Tu esegui:
+```
+git fetch origin
+```
+Ora il tuo branch locale potrebbe essere "behind" rispetto a origin/branch, cioè il branch remoto ha commit che tu non hai ancora.
+
+Puoi vedere i nuovi commit con:
+```
+git log origin/movies
+```
+Oppure esplorare i file aggiornati con:
+```
+git checkout origin/movies
+```
+
+Se vuoi fetchare solo un branch:
+```
+git fetch origin food
+```
+
+Dopo il fetch, puoi vedere anche nuovi branch creati su GitHub:
+```
+git branch -r
+```
+Se vedi un nuovo branch (es. origin/morefood), significa che ora il tuo repo locale lo conosce.
+
+Ricorda: fetch aggiorna solo i riferimenti remoti, non modifica i tuoi file locali. Per integrare le modifiche, userai git pull (prossima sezione).
+
+## Git Pull: il comando base
+
+Il comando `git pull` serve per scaricare e integrare le modifiche dal repository remoto direttamente nel branch locale su cui stai lavorando.
+
+- Esegue prima un `git fetch` (scarica le modifiche dal remoto)
+- Poi fa un `git merge` automatico nel branch attivo
+
+### Sintassi
+```
+git pull <remote> <nome-branch>
+```
+Esempio:
+```
+git pull origin movies
+```
+Scarica e integra le modifiche dal branch remoto origin/movies nel branch locale movies.
+
+Dopo il pull:
+- Il branch locale sarà aggiornato con tutti i nuovi commit
+- I nuovi file saranno visibili nella tua working directory
+
+Se ci sono modifiche sia locali che remote, git pull può generare conflitti che dovrai risolvere manualmente.
+
+In sintesi: `git pull` è il modo più diretto per sincronizzare il tuo branch locale con il corrispondente branch remoto, integrando subito tutte le novità.
+
