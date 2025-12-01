@@ -332,4 +332,25 @@ Da qui in poi, il workflow è identico:
 
 Questo approccio è utile se vuoi partire da zero e avere subito il collegamento tra il tuo repository locale e quello remoto su GitHub.
 
+## Main & Master: branch di default su GitHub
+
+Dal 2020, GitHub ha deciso di usare `main` come nome di default per il branch principale, invece di `master`. Nei repository nuovi, se aggiungi un file iniziale (come un README), il branch creato sarà `main`.
+
+### Cosa cambia?
+- Nei progetti nuovi su GitHub, il branch principale sarà `main`.
+- Nei progetti esistenti, potresti trovare ancora `master` come branch principale.
+- Puoi rinominare il branch principale da `master` a `main` con:
+	```
+	git branch -M main
+	git push origin main
+	```
+- Su GitHub puoi anche impostare quale branch è il default dalle impostazioni del repository.
+
+### Da ricordare
+- `main` e `master` sono solo nomi: il funzionamento non cambia.
+- Sempre più progetti usano `main`, ma `master` è ancora molto comune.
+- Se cambi il nome del branch, ricordati di aggiornare anche il default su GitHub se necessario.
+
+In sintesi, non c’è differenza tecnica tra `main` e `master`: sono solo convenzioni. Scegli quella che preferisci o che è richiesta dal tuo team/progetto.
+
 
