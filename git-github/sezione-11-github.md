@@ -1,4 +1,27 @@
+
 # Sezione 11: GitHub - Le Basi
+
+## Comandi fondamentali di Git & GitHub
+
+Ecco i comandi principali visti in questo capitolo:
+
+- **git init**: Inizializza un nuovo repository Git locale
+- **git clone URL**: Clona un repository remoto (GitHub, GitLab, ecc.)
+- **git status**: Mostra lo stato dei file nel repository
+- **git add nome-file**: Aggiunge file all’area di staging
+- **git commit -m "messaggio"**: Salva le modifiche con un messaggio
+- **git branch**: Elenca i branch disponibili
+- **git branch nome-branch**: Crea un nuovo branch
+- **git switch nome-branch**: Passa a un branch diverso
+- **git remote -v**: Mostra i remoti configurati
+- **git remote add origin URL**: Collega il repository locale a uno remoto
+- **git push origin nome-branch**: Carica il branch locale su GitHub
+- **git push -u origin nome-branch**: Carica il branch e imposta l’upstream (tracking)
+- **git branch -M main**: Rinomina il branch corrente in main
+- **git pull**: Scarica e integra le modifiche dal repository remoto
+
+Questi comandi ti permettono di gestire repository, branch, remoti e collaborare efficacemente con GitHub.
+
 
 ## Cosa fa GitHub per noi?
 
