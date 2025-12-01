@@ -14,7 +14,7 @@ Benvenuto al corso Git & GitHub!
 8. [Sezione 8: Introduzione a GitHub](#sezione-8-introduzione-a-github)
 9. [Sezione 9: Repository remoti](#sezione-9-repository-remoti)
 10. [Sezione 10: Collaborazione su GitHub](#sezione-10-collaborazione-su-github)
-11. [Sezione 11: GitHub: The Basis](#sezione-11-github-the-basis.md)
+11. [Sezione 11: GitHub: The Basis](#git-github/#sezione-11-github-the-basis.md)
 
 ---
 
