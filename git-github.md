@@ -17,4 +17,4 @@ Benvenuto al corso Git & GitHub!
 11. [Sezione 11: GitHub: The Basis](git-github/sezione-11-github.md)
 12. [Sezione 12: Fetching & Pulling](git-github/sezione-12-fetching-pulling.md)
 13. [Sezione 13: Github Grab Bag: Odd & Ends](git-github/sezione-13-grab-bag.md)
-14. [Sezione 14: Git Collaboration Workflows](git-github/sezione-14-collaboration-workflows.md)
+14. [Sezione 14: Git Collaboration Workflows](git-github/sezione-14-collaboration-workflow.md)
