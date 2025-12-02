@@ -215,3 +215,150 @@ git push origin --delete pricing-table
 
 **Consiglio:** Non fare merge "a caso"! Discuti sempre con il team e usa Pull Request per progetti più grandi o collaborativi.
 
+## Introduzione alle Pull Request (PR)
+
+Le **Pull Request** (PR) sono uno strumento fondamentale per collaborare su GitHub e altre piattaforme. Non fanno parte di Git "puro", ma sono una funzionalità aggiunta da servizi come GitHub, Bitbucket, GitLab.
+
+### A cosa servono le Pull Request?
+- Permettono di proporre modifiche da un branch (di solito una feature) verso il branch principale (`main`/`master`)
+- Facilitano la revisione del codice: altri collaboratori possono commentare, chiedere modifiche, approvare o rifiutare
+- Rendono il processo di integrazione trasparente e controllato
+- Spesso sono obbligatorie nei progetti aziendali o open source: non si può fare merge diretto su `main`
+
+### Come funziona una Pull Request
+1. Fai il push del tuo branch su GitHub
+2. Apri una Pull Request dal branch di lavoro verso il branch principale
+3. Scrivi una descrizione chiara: cosa hai fatto, perché, eventuali note
+4. I collaboratori (o i responsabili) revisionano il codice, lasciano commenti, chiedono modifiche
+5. Quando la PR è approvata, viene fatta la merge nel branch principale
+
+### Vantaggi
+- Discussione e revisione prima di integrare il codice
+- Possibilità di richiedere modifiche o chiarimenti
+- Maggiore sicurezza: il branch principale rimane stabile
+- Tracciabilità: ogni modifica è documentata e discussa
+
+**Esempio:**
+Pamela ha finito la feature "dark mode" su un branch dedicato. Fa push su GitHub, apre una Pull Request verso `main`, descrive il lavoro, riceve feedback, apporta modifiche se richiesto, e solo quando tutto è approvato la PR viene "mergiata" su `main`.
+
+**Consiglio:** Usa sempre le Pull Request per integrare nuove funzionalità, bugfix o refactor su progetti condivisi!
+
+## Demo pratica: creare e gestire una Pull Request
+
+Immagina che Stevie abbia finito la sua feature "navbar" su un branch dedicato e voglia integrarla su `main` tramite una Pull Request.
+
+### 1. Push del branch su GitHub
+```bash
+git push origin navbar
+```
+
+### 2. Apertura della Pull Request
+- Vai su GitHub, seleziona il repository
+- Clicca su "Compare & pull request" accanto al branch appena pushato
+- Compila titolo e descrizione, menziona collaboratori se necessario (es: @Colt)
+- Clicca su "Create pull request"
+
+### 3. Revisione e discussione
+- I collaboratori possono commentare, chiedere modifiche, approvare o rifiutare
+- Stevie può aggiungere nuovi commit al branch "navbar" per rispondere ai feedback
+
+### 4. Merge della Pull Request
+- Quando la PR è approvata, un responsabile (es: Colt) clicca su "Merge pull request"
+- Si può scegliere di eliminare il branch dopo il merge
+
+### 5. Aggiornamento dei branch locali
+Tutti i collaboratori devono aggiornare il branch principale:
+```bash
+git switch main
+git pull origin main
+```
+E possono eliminare il branch locale:
+```bash
+git branch -D navbar
+```
+
+**Morale:** La Pull Request permette di integrare nuove funzionalità in modo controllato, con revisione e discussione, mantenendo il branch principale stabile!
+
+## Demo: risolvere conflitti durante il merge di una Pull Request
+
+Quando si cerca di fare il merge di una Pull Request, può capitare che ci siano conflitti tra il branch della PR e il branch principale (`main`). Ecco come risolverli:
+
+### 1. Crea una PR che genera conflitto
+Supponiamo che Stevie abbia cambiato l’intestazione (`<h1>`) su un branch chiamato `new-heading`, mentre Colt ha modificato la stessa riga su `main`.
+
+Stevie fa push e apre una Pull Request verso `main`. GitHub segnala che ci sono conflitti.
+
+### 2. Risolvi i conflitti in locale
+Colt (o chi deve gestire la PR) segue questi passaggi:
+```bash
+# Assicurati di avere l’ultima versione di main
+git switch main
+git pull origin main
+
+# Passa al branch della PR
+git switch new-heading
+
+# Unisci main nel branch della PR
+git merge main
+# Git segnala i conflitti: apri il file, risolvi manualmente
+# Modifica il file per mantenere le parti corrette
+
+# Aggiungi e committa la risoluzione
+git add index.html
+git commit -m "risolvi conflitto tra main e new-heading"
+
+# Torna su main e unisci il branch risolto
+git switch main
+git merge --no-ff new-heading
+
+# Spingi su GitHub
+git push origin main
+```
+
+### 3. Chiudi la PR e aggiorna i branch locali
+La PR viene chiusa automaticamente su GitHub dopo il merge. Puoi eliminare il branch:
+```bash
+git branch -D new-heading
+git push origin --delete new-heading
+```
+Tutti i collaboratori devono aggiornare il branch principale:
+```bash
+git switch main
+git pull origin main
+```
+
+**Consiglio:** Risolvi i conflitti localmente se sono complessi o coinvolgono molti file. Su GitHub puoi risolvere conflitti semplici direttamente dal browser!
+
+## Branch Protection Rules: proteggere il branch principale
+
+Su GitHub puoi configurare regole di protezione per i branch (branch protection rules) per aumentare la sicurezza e la qualità del codice.
+
+### A cosa servono?
+- Impediscono modifiche dirette al branch principale (`main`/`master`)
+- Richiedono che tutte le modifiche passino tramite Pull Request
+- Puoi obbligare la revisione di almeno un collaboratore prima del merge
+- Puoi impedire la cancellazione o il force push sul branch
+
+### Come si configurano
+1. Vai su GitHub → Settings del repository → Branches
+2. Scegli il branch da proteggere (es: `main`)
+3. Aggiungi una regola di protezione:
+	- Richiedi revisione PR prima del merge
+	- Impedisci il force push
+	- Impedisci la cancellazione del branch
+	- (Opzionale) Richiedi che i test passino prima del merge
+4. Salva la regola
+
+### Esempio pratico
+- Stevie prova a modificare direttamente `main`, ma GitHub lo blocca: deve creare una feature branch e aprire una Pull Request
+- La PR non può essere "mergiata" finché almeno un revisore (es: Colt) non la approva
+- Si può discutere, lasciare commenti, richiedere modifiche
+- Solo dopo l’approvazione la PR può essere integrata su `main`
+
+### Vantaggi
+- Maggiore controllo e qualità del codice
+- Riduce il rischio di errori o modifiche non volute
+- Favorisce la collaborazione e la revisione
+
+**Consiglio:** Attiva sempre branch protection rules su progetti condivisi o importanti!
+
