@@ -1,4 +1,4 @@
-# Sezione 13: G ithub Grab Bag: Odds & Ends
+# Sezione 13: Github Grab Bag: Odds & Ends
 
 ## Github Repo visibility: Public Vs. Private
 
