@@ -362,3 +362,29 @@ Su GitHub puoi configurare regole di protezione per i branch (branch protection 
 
 **Consiglio:** Attiva sempre branch protection rules su progetti condivisi o importanti!
 
+## Introduzione al Forking su GitHub
+
+Il workflow "Fork & Clone" è fondamentale nei progetti open source con molti collaboratori. Invece di lavorare tutti su un unico repository centrale, ogni sviluppatore crea una copia personale (fork) del repository principale.
+
+### Cos’è il fork?
+- Forking è una funzione di GitHub (non di Git!) che permette di creare una copia di un repository su il proprio account GitHub.
+- Il fork mantiene tutta la storia e i file del progetto originale, ma diventa indipendente: puoi modificarlo, sperimentare, rompere il codice senza influenzare il progetto principale.
+
+### Quando si usa il fork?
+- Quando vuoi contribuire a un progetto open source ma non sei un collaboratore diretto
+- Quando vuoi sperimentare o proporre modifiche senza toccare il repository originale
+
+### Come funziona
+1. Vai sul repository pubblico che ti interessa
+2. Clicca su "Fork" in alto a destra
+3. GitHub crea una copia del repository sul tuo account
+4. Puoi ora clonare il tuo fork, lavorare localmente, creare branch, fare commit e push
+5. Quando hai finito, puoi proporre le tue modifiche tramite una Pull Request verso il repository originale
+
+### Vantaggi
+- Chiunque può proporre modifiche, anche senza permessi diretti
+- I maintainer del progetto possono revisionare e accettare/rifiutare le proposte
+- Il progetto principale rimane protetto da modifiche non controllate
+
+**Consiglio:** Se vuoi contribuire a un progetto open source, inizia sempre facendo il fork e lavorando sulla tua copia!
+
