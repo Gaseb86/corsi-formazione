@@ -168,3 +168,59 @@ Gli alias di Git possono accettare argomenti: tutto ciò che scrivi dopo l’ali
 
 Nel prossimo paragrafo vedremo alcuni alias avanzati e utili condivisi dalla community.
 
+---
+
+## 🌐 Alias avanzati e utili dalla community
+
+Oltre agli alias semplici, online trovi raccolte di alias avanzati che migliorano la produttività e aggiungono funzionalità. Ecco alcuni tra i più popolari:
+
+### 🖥️ Alias per log colorato e compatto
+```ini
+[alias]
+    ls = log --color --graph --pretty=format:'%C(yellow)%h%Creset - %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+```
+Usa `git ls` per vedere la storia in modo leggibile e colorato.
+
+### 🗂️ Alias per vedere file modificati nei commit
+```ini
+[alias]
+    ll = log --name-status --oneline
+```
+Usa `git ll` per vedere i file cambiati in ogni commit.
+
+### 🔧 Come modificare un alias già esistente
+Puoi cambiare un alias in due modi:
+- **Dal terminale:**
+  ```bash
+  git config --global alias.ll "log --name-status --oneline"
+  ```
+  (Sostituisci il comando con quello che preferisci)
+- **Modificando il file `.gitconfig`:**
+  Apri `~/.gitconfig` e cambia la riga corrispondente sotto `[alias]`.
+
+Dopo aver salvato, il nuovo alias sarà subito attivo!
+
+### 🏷️ Alias per rinominare branch (shell script)
+```ini
+[alias]
+    done = !git branch | grep -v "\*" | xargs -I {} git branch -m {} done-{}
+```
+L’esclamativo `!` indica che l’alias esegue un comando di shell, non solo Git.
+
+### 📋 Alias per elencare tutti gli alias definiti
+```ini
+[alias]
+    la = !git config --get-regexp ^alias\.
+```
+Usa `git la` per vedere la lista di tutti gli alias configurati.
+
+### ℹ️ Note e avvertenze
+- Gli alias con `!` permettono di usare comandi di shell (es: grep, echo, xargs).
+- Puoi trovare raccolte di alias su blog, forum, GitHub (es: il repo "git-alias").
+- Attenzione: gli alias sono personali! Se lavori su altri computer, potrebbero non essere disponibili.
+- Impara sempre i comandi originali prima di affidarti agli alias.
+
+> 💡 **Risorsa utile:** Cerca su GitHub "git-alias" per una raccolta completa e documentata di alias avanzati.
+
+Con questo hai una panoramica completa sugli alias Git: come crearli, usarli e trovare quelli più utili online!
+
