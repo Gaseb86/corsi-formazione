@@ -1,0 +1,1 @@
+# Sezione 18: Git Behind the Scenes - Hashing & Objects
