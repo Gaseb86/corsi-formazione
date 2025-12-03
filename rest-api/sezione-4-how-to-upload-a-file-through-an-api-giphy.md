@@ -1,0 +1,1 @@
+# Sezione 4: How to upload a file through an API (Giphy)
