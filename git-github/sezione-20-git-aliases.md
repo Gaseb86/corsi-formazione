@@ -188,18 +188,6 @@ Usa `git ls` per vedere la storia in modo leggibile e colorato.
 ```
 Usa `git ll` per vedere i file cambiati in ogni commit.
 
-### 🔧 Come modificare un alias già esistente
-Puoi cambiare un alias in due modi:
-- **Dal terminale:**
-  ```bash
-  git config --global alias.ll "log --name-status --oneline"
-  ```
-  (Sostituisci il comando con quello che preferisci)
-- **Modificando il file `.gitconfig`:**
-  Apri `~/.gitconfig` e cambia la riga corrispondente sotto `[alias]`.
-
-Dopo aver salvato, il nuovo alias sarà subito attivo!
-
 ### 🏷️ Alias per rinominare branch (shell script)
 ```ini
 [alias]
