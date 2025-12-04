@@ -185,4 +185,209 @@ Qui `John` è un path parameter che identifica lo studente, mentre `order=ASC` �
 
 > 💡 Ricorda: path parameters servono per identificare risorse specifiche (es: utenti, prodotti, ordini) direttamente nel percorso dell’URL!
 
+---
+
+## 🏷️ Cosa sono gli HTTP Headers?
+
+Gli **headers** sono informazioni aggiuntive (metadati) che accompagnano ogni richiesta e risposta HTTP. Servono a fornire dettagli su come gestire, interpretare o descrivere i dati trasmessi.
+
+### 📚 Sintassi
+- Ogni header ha una chiave e un valore: `Chiave: Valore`
+- Sono presenti sia nella richiesta che nella risposta
+
+Esempio:
+```
+GET / HTTP/1.1
+Host: www.google.com
+User-Agent: PostmanRuntime/7.32.2
+Accept-Language: fr
+Cache-Control: no-cache
+```
+
+### 🖥️ Esempio pratico con Postman
+- Puoi vedere e modificare gli headers nella tab “Headers”
+- Alcuni headers sono aggiunti automaticamente (es: User-Agent, Cache-Control)
+- Puoi aggiungere header personalizzati (es: `Accept-Language: fr` per ricevere la risposta in francese)
+- Gli headers della risposta sono visibili nella tab “Headers” della sezione Response
+
+### 📦 Analogia
+Come le etichette su un pacco: alcune sono obbligatorie (indirizzo), altre opzionali (fragile, contenuto speciale)
+
+### ℹ️ Note importanti
+- Gli headers sono solo testo: il server deve riconoscere la chiave per reagire
+- Esiste una lista standard di headers, ma puoi aggiungere anche personalizzati
+- La documentazione dell’API ti dirà quali headers sono richiesti o supportati
+- In Postman puoi vedere il formato “grezzo” dei messaggi nella console
+
+> 💡 Ricorda: gli headers sono fondamentali per controllare il comportamento delle richieste e delle risposte HTTP. Impara a riconoscere i più comuni (Content-Type, Accept, Authorization, ecc.)!
+
+---
+
+## 🏷️ HTTP headers: Content-Type
+
+Il **Content-Type** è uno degli header più importanti: indica il tipo di contenuto che viene inviato o ricevuto nel body della richiesta o della risposta HTTP.
+
+### 📚 A cosa serve?
+- Permette al client e al server di sapere subito che tipo di dati stanno gestendo (HTML, JSON, XML, ecc.)
+- Aiuta strumenti come Postman a visualizzare correttamente la risposta
+
+### 📝 Esempi di Content-Type
+- `text/html` → pagina web HTML
+- `application/json` → dati in formato JSON
+- `application/xml` o `text/xml` → dati in formato XML
+
+### 🖥️ Esempio pratico con Postman
+- Nella tab “Headers” puoi aggiungere `Content-Type: application/json` quando invii dati JSON
+- Se la risposta contiene `Content-Type: application/json`, Postman mostrerà la risposta in formato “Pretty” JSON
+- Se manca il Content-Type, Postman non sa come formattare la risposta e la mostra come testo semplice
+
+### ℹ️ Note importanti
+- Il Content-Type può essere presente sia nella richiesta che nella risposta
+- Se invii dati (es: POST, PUT), imposta sempre il Content-Type corretto
+- La documentazione dell’API ti dirà quale Content-Type usare
+
+> 💡 Ricorda: il Content-Type è fondamentale per la corretta interpretazione dei dati tra client e server!
+
+---
+
+## 🏷️ HTTP headers: Authorization
+
+L’header **Authorization** è fondamentale per la sicurezza delle API: serve a inviare le credenziali (token, password, chiavi) che permettono di identificare chi sta facendo la richiesta.
+
+### 📚 A cosa serve?
+- Permette di autenticare l’utente o l’applicazione che chiama l’API
+- Senza Authorization, molte API rispondono con errore 401 Unauthorized
+
+### 📝 Esempi di Authorization header
+- **Bearer Token** (il più comune per le API moderne):
+  ```
+  Authorization: Bearer <token>
+  ```
+- **Basic Auth** (meno usato, base64 di user:password):
+  ```
+  Authorization: Basic <base64(user:password)>
+  ```
+
+### 🖥️ Esempio pratico con Postman
+- Vai nella tab “Authorization” e scegli “Bearer Token”
+- Inserisci il token richiesto dall’API
+- Postman aggiungerà automaticamente l’header `Authorization: Bearer <token>`
+- Puoi anche aggiungerlo manualmente nella tab “Headers”
+
+### ℹ️ Note importanti
+- Le API specificano sempre nella documentazione quale tipo di Authorization usare
+- Non inviare mai credenziali sensibili nei query parameters o nel body
+- L’Authorization header è usato solo nella richiesta, non nella risposta
+
+> 💡 Ricorda: senza Authorization, molte API non ti permettono di accedere ai dati! Consulta sempre la documentazione per sapere che tipo di autenticazione serve.
+
+---
+
+## 🏷️ HTTP headers: Cookie (Cookies)
+
+I **cookie** sono piccoli dati che il server può salvare sul client (di solito il browser) tramite HTTP headers.
+Anche se sono poco usati nelle API moderne, è importante conoscerli.
+
+### 📚 Come funzionano?
+- Il server invia un header `Set-Cookie` nella risposta per chiedere al client di salvare un cookie
+- Il client (browser o Postman) salva il cookie e lo invia nelle richieste successive tramite l’header `Cookie`
+
+### 📝 Esempio di headers
+- Risposta dal server:
+  ```
+  Set-Cookie: sessionid=abc123; Path=/; Domain=.google.com; Expires=...
+  ```
+- Richiesta successiva dal client:
+  ```
+  Cookie: sessionid=abc123
+  ```
+
+### 🖥️ Esempio pratico con Postman
+- Fai una richiesta a google.com: nella risposta vedrai uno o più header `Set-Cookie`
+- Nelle richieste successive, Postman aggiunge automaticamente l’header `Cookie` con i valori ricevuti
+- Puoi visualizzare e gestire i cookie tramite l’interfaccia di Postman
+
+### ℹ️ Note importanti
+- I cookie sono usati soprattutto per autenticazione e tracciamento nelle web app
+- Nelle API moderne si preferiscono token (es: Authorization) invece dei cookie
+- I cookie sono sempre associati a un dominio
+- Le API che richiedono cookie lo specificano nella documentazione
+
+> 💡 Ricorda: i cookie sono headers HTTP speciali, usati soprattutto dai browser. Nelle API moderne si usano raramente, ma è utile saperli riconoscere!
+
+---
+
+## 📝 HTTP body
+
+L’**HTTP body** è la parte principale della richiesta o della risposta: contiene i dati veri e propri che vogliamo inviare o ricevere.
+
+### 📚 Quando si usa?
+- Nelle richieste: solo con alcuni metodi (POST, PUT, PATCH), non con GET
+- Nelle risposte: quasi sempre, perché il server restituisce dati
+
+### 📝 Cosa può contenere?
+- Testo semplice
+- Dati strutturati (JSON, XML)
+- File, immagini, audio, ecc. (più raro nelle API)
+
+### 🖥️ Esempio pratico con Postman
+1. Seleziona il metodo POST
+2. Vai nella tab “Body” e scegli “raw”
+3. Scrivi il contenuto (es: JSON)
+   ```json
+   {
+     "name": "Valentine"
+   }
+   ```
+4. Seleziona “JSON” dal menu a destra per formattare correttamente
+5. Postman aggiungerà automaticamente l’header `Content-Type: application/json`
+6. Invia la richiesta e controlla la risposta
+
+### ⚠️ Attenzione alla validità dei dati
+- Se il formato (es: JSON) non è valido, il server potrebbe non capire la richiesta
+- Postman aiuta a evidenziare errori di sintassi
+
+### ℹ️ Note importanti
+- Il body è opzionale nelle richieste, ma quasi sempre presente nelle risposte
+- Segui sempre la documentazione dell’API per sapere che formato usare
+
+> 💡 Ricorda: il body è il “contenuto” della richiesta/risposta. Per le API moderne, il formato più usato è JSON!
+
+---
+
+## 🟢 HTTP status code (200, 301, 401, 403, 404, ...)
+
+Gli **HTTP status code** sono codici numerici inviati dal server nella risposta per indicare l’esito della richiesta. Solo il server può inviarli.
+
+### 📚 A cosa servono?
+- Permettono al client di capire subito se la richiesta è andata a buon fine o se c’è stato un errore
+- Facilitano la gestione degli errori senza dover analizzare il body della risposta
+
+### 🗂️ Le principali classi di status code
+- **1xx**: Informativi (raro nelle API)
+- **2xx**: Successo
+  - 200 OK: richiesta riuscita
+  - 201 Created: risorsa creata
+- **3xx**: Redirect (raro nelle API)
+  - 301 Moved Permanently: risorsa spostata
+- **4xx**: Errore del client
+  - 400 Bad Request: richiesta malformata
+  - 401 Unauthorized: non autenticato
+  - 403 Forbidden: non autorizzato
+  - 404 Not Found: risorsa non trovata
+- **5xx**: Errore del server
+  - 500 Internal Server Error: errore generico del server
+
+### 🖥️ Esempio pratico con Postman
+- Dopo aver inviato una richiesta, Postman mostra il codice di stato in alto nella risposta
+- Passa il mouse sopra il codice per vedere una breve spiegazione
+- 200 = tutto ok, 404 = risorsa non trovata, 401/403 = problemi di autenticazione/autorizzazione
+
+### ℹ️ Note importanti
+- Se il server è offline/non risponde, non riceverai nessun status code (errore di rete)
+- Consulta sempre la documentazione dell’API per sapere quali status code aspettarti
+
+> 💡 Ricorda: i codici di stato sono fondamentali per capire subito l’esito di una richiesta API!
+
+
 
