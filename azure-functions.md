@@ -1,94 +1,118 @@
-# Guida: Creazione ed Esecuzione della Prima Funzione Azure
+# Guida: Creazione ed Esecuzione di una Funzione Azure con Python e VS Code
 
-Questa guida descrive passo passo come creare, eseguire e testare una semplice funzione Azure con trigger HTTP, come richiesto dalla User Story 3.
+Questa guida descrive passo passo come creare, eseguire e testare una semplice funzione Azure con trigger HTTP utilizzando Python e l'estensione Azure Functions per Visual Studio Code.
 
 ## User Story 3: Creazione ed Esecuzione Prima Azure Function
 **Descrizione:** Voglio creare una semplice funzione HTTP per capire il ciclo di vita dell'applicazione.
 
 ---
 
-### Passaggio 1: Inizializzazione del Progetto e Creazione della Funzione
+### Prerequisito: Installare l'Estensione Azure Functions
 
-Per prima cosa, prepariamo l'ambiente di sviluppo locale.
-
-1.  **Apri un terminale** in VS Code.
-2.  **Crea una nuova cartella** per il tuo progetto e naviga al suo interno. È buona norma tenere i progetti organizzati.
-    ```powershell
-    mkdir projects\AzureFunctionsProject
-    cd projects\AzureFunctionsProject
-    ```
-3.  **Inizializza un nuovo progetto** di Funzioni di Azure. Questo comando crea i file di configurazione di base del progetto (`local.settings.json`, `host.json`). Ti verrà chiesto di scegliere un runtime per i worker.
-    ```powershell
-    func init
-    ```
-    Per questo esempio, seleziona `dotnet` quando richiesto.
-
-4.  **Crea una nuova funzione con trigger HTTP**. Questo comando genera il codice boilerplate per una funzione che risponde a richieste HTTP.
-    ```powershell
-    func new --name HttpExample --template "HTTP trigger"
-    ```
-    Verrà creata una nuova cartella `HttpExample` contenente il file C# con la logica della funzione.
+Prima di iniziare, assicurati di aver installato l'estensione **Azure Functions** per VS Code. Puoi trovarla nel Marketplace delle estensioni.
 
 ---
 
-### Passaggio 2: Esecuzione Locale e Test con `curl`
+### Passaggio 1: Creazione del Progetto e della Funzione tramite VS Code
 
-Ora che il codice è stato generato, eseguiamolo in locale per testarlo.
+L'estensione per VS Code semplifica notevolmente la creazione del progetto.
 
-1.  **Avvia l'host locale** delle Funzioni di Azure. Questo comando compila il codice e avvia un server di sviluppo che simula l'ambiente Azure.
-    ```powershell
-    func start
-    ```
-    Nel terminale vedrai l'URL completo per invocare la tua funzione, che sarà simile a questo:
+1.  **Apri la Palette dei Comandi** (`Ctrl+Shift+P` o `Cmd+Shift+P` su Mac).
+2.  Cerca e seleziona il comando **`Azure Functions: Create New Project...`**.
+3.  Segui i passaggi guidati:
+    *   **Seleziona una cartella** per il tuo progetto (es. `projects/AzureFunctionsProjectPython`).
+    *   **Seleziona un linguaggio:** Scegli **Python**.
+    *   **Seleziona un interprete Python** per creare un ambiente virtuale.
+    *   **Seleziona un template:** Scegli **HTTP trigger**.
+    *   **Dai un nome alla funzione:** Ad esempio, `HttpExample`.
+    *   **Scegli il livello di autorizzazione:** Seleziona **Anonymous** per semplificare i test.
+
+VS Code creerà automaticamente la struttura del progetto, un ambiente virtuale (`.venv`), i file di configurazione (`local.settings.json`, `host.json`) e il file della funzione (`HttpExample/__init__.py`).
+
+---
+
+### Passaggio 2: Esecuzione Locale e Debug in VS Code
+
+Eseguire e debuggare la funzione è integrato in VS Code.
+
+1.  **Apri la vista "Run and Debug"** dal pannello laterale (`Ctrl+Shift+D`).
+2.  Fai clic sul pulsante verde **"Start Debugging"** (o premi `F5`).
+3.  VS Code avvierà l'host delle Funzioni di Azure nel terminale integrato e collegherà il debugger.
+4.  Nel terminale vedrai l'URL per invocare la tua funzione, simile a questo:
     `HttpExample: [GET,POST] http://localhost:7071/api/HttpExample`
 
-2.  **Apri un secondo terminale** per testare la funzione senza fermare il server. Useremo `curl` per inviare una richiesta HTTP. L'URL di default si aspetta un parametro `name` nella query string.
+---
+
+### Passaggio 3: Testare la Funzione con `curl` e Postman
+
+I passaggi per testare la funzione sono identici, indipendentemente dal linguaggio.
+
+1.  **Test con `curl`**:
+    Apri un nuovo terminale e invia una richiesta GET:
     ```powershell
     curl "http://localhost:7071/api/HttpExample?name=Copilot"
     ```
-    La risposta attesa nel terminale sarà: `Hello, Copilot. This HTTP triggered function executed successfully.`
+    La risposta attesa sarà: `Hello, Copilot. This HTTP triggered function executed successfully.`
+
+2.  **Test con Postman (tramite Port Forwarding)**:
+    *   Nel pannello inferiore di VS Code, vai alla scheda **"Porte"**.
+    *   Assicurati che la porta `7071` sia inoltrata. In caso contrario, aggiungila.
+    *   Copia l'URL inoltrato (es. `https://some-random-name.app.github.dev:7071`).
+    *   In Postman, crea una richiesta **GET** all'URL completo:
+      `https://some-random-name.app.github.dev:7071/api/HttpExample?name=Postman`
+    *   Invia la richiesta per ricevere la stessa risposta.
 
 ---
 
-### Passaggio 3: Configurazione del Port Forwarding per Postman
+### Passaggio 4: Analisi del Codice Python e dei Log
 
-Per testare la funzione da un'applicazione esterna a VS Code come Postman (in esecuzione sul tuo PC fisico), è necessario esporre la porta del servizio in esecuzione nel codespace.
+Diamo un'occhiata al codice generato e ai log prodotti.
 
-1.  Nel pannello inferiore di VS Code, vai alla scheda **"Porte"**.
-2.  Se la porta `7071` non è già elencata, fai clic sul pulsante **"Inoltra una porta"** e digitala.
-3.  VS Code renderà la porta pubblicamente accessibile e ti fornirà un URL inoltrato, come `https://some-random-name.app.github.dev:7071`.
-4.  Apri **Postman** sul tuo computer.
-5.  Crea una nuova richiesta **GET** e incolla l'URL fornito, aggiungendo il percorso della funzione e il parametro.
-    Esempio: `https://some-random-name.app.github.dev:7071/api/HttpExample?name=Postman`
-6.  Invia la richiesta. La risposta dovrebbe essere identica a quella ricevuta tramite `curl`.
+**Codice (`HttpExample/__init__.py`):**
+```python
+import logging
+import azure.functions as func
 
----
+def main(req: func.HttpRequest) -> func.HttpResponse:
+    logging.info('Python HTTP trigger function processed a request.')
 
-### Passaggio 4: Analisi dei Log
+    name = req.params.get('name')
+    if not name:
+        try:
+            req_body = req.get_json()
+        except ValueError:
+            pass
+        else:
+            name = req_body.get('name')
 
-Ogni volta che la funzione viene invocata, l'host delle Funzioni di Azure scrive dei log dettagliati nel terminale in cui è in esecuzione `func start`. Questi log sono essenziali per il debug.
+    if name:
+        return func.HttpResponse(f"Hello, {name}. This HTTP triggered function executed successfully.")
+    else:
+        return func.HttpResponse(
+             "This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response.",
+             status_code=200
+        )
+```
 
-Ecco un esempio dell'output:
+**Analisi dei Log nel terminale di VS Code:**
 ```
 info: Function.HttpExample[0]
-      Executing 'HttpExample' (Reason='This function was programmatically called via the host APIs.', Id=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)
-info: C# HTTP trigger function processed a request.
+      Executing 'Functions.HttpExample' (Reason='This function was programmatically called via the host APIs.', Id=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)
+info: Host.Function.Console[0]
+      Python HTTP trigger function processed a request.
 info: Function.HttpExample[0]
-      Executed 'HttpExample' (Succeeded, Id=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx, Duration=123ms)
+      Executed 'Functions.HttpExample' (Succeeded, Id=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx, Duration=123ms)
 ```
 
-**Spiegazione dettagliata dei log:**
+**Spiegazione dettagliata:**
 
-1.  `Executing 'HttpExample'`:
-    *   **Cosa significa:** È il log di inizio esecuzione. Indica che il trigger (in questo caso, una richiesta HTTP) è stato ricevuto e la funzione `HttpExample` sta per essere eseguita.
-    *   **Reason:** Spiega perché la funzione è stata attivata.
-    *   **Id:** Un GUID (Globally Unique Identifier) che identifica in modo univoco questa specifica esecuzione. È utile per correlare i log di inizio e fine della stessa chiamata.
+1.  `Executing 'Functions.HttpExample'`:
+    *   Indica che il trigger HTTP è stato ricevuto e l'esecuzione della funzione `HttpExample` è iniziata. L'`Id` univoco aiuta a tracciare la singola richiesta.
 
-2.  `C# HTTP trigger function processed a request.`:
-    *   **Cosa significa:** Questo è un log informativo generato direttamente dal codice della funzione. Aprendo il file `HttpExample.cs`, troverai una riga simile a `log.LogInformation("C# HTTP trigger function processed a request.");`. Puoi (e dovresti) aggiungere log personalizzati come questo per tracciare il flusso logico della tua applicazione.
+2.  `Python HTTP trigger function processed a request.`:
+    *   Questo è il log personalizzato che abbiamo scritto nel nostro codice Python usando la libreria `logging`. È fondamentale per capire il flusso di esecuzione della logica di business.
 
-3.  `Executed 'HttpExample'`:
-    *   **Cosa significa:** È il log di fine esecuzione. Indica che la funzione ha completato il suo lavoro.
-    *   **Succeeded:** Lo stato finale. Può essere `Succeeded` o `Failed`. Se è `Failed`, di solito è accompagnato da un'eccezione o un messaggio di errore.
-    *   **Id:** Lo stesso ID del log di inizio, per una facile correlazione.
-    *   **Duration:** Il tempo totale, in millisecondi, impiegato dalla funzione per completare l'esecuzione. È un dato cruciale per monitorare le performance.
+3.  `Executed 'Functions.HttpExample'`:
+    *   Indica che la funzione ha terminato il suo lavoro.
+    *   **Succeeded:** Mostra che non ci sono stati errori.
+    *   **Duration:** Misura il tempo di esecuzione, utile per l'analisi delle performance.
