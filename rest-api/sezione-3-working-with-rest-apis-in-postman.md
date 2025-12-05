@@ -259,4 +259,342 @@ Vediamo come ottenere i dettagli di una singola auto tramite l’endpoint con pa
 
 Nella prossima parte vedremo come gestire errori e come lavorare con altri metodi HTTP (POST, PUT, DELETE).
 
+---
+
+## 🏋️‍♂️ Assignment - GET
+
+Mettiamoci alla prova! Usa la documentazione Swagger e Postman per:
+- Ottenere la lista delle riparazioni di una specifica auto: `GET /cars/{carId}/repairs`
+- Ottenere i dettagli di una singola riparazione: `GET /cars/{carId}/repairs/{repairId}`
+
+### Obiettivi
+- Prova entrambi gli endpoint sia in Swagger UI che in Postman
+- Usa i path parameters corretti (carId e repairId)
+- Salva le richieste nella tua Collection
+
+---
+
+## ✅ Assignment solution - GET
+
+### 1️⃣ Prova in Swagger UI
+- Trova l’endpoint `GET /cars/{carId}/repairs`
+  - Inserisci un carId valido (es: `1`)
+  - Clicca su **Execute**
+  - Ricevi una lista di riparazioni per quell’auto:
+
+```json
+[
+  { "repairId": 3, "repairDate": "2023-01-10" },
+  { "repairId": 5, "repairDate": "2023-03-22" }
+]
+```
+
+- Trova l’endpoint `GET /cars/{carId}/repairs/{repairId}`
+  - Inserisci un carId valido (es: `1`) e un repairId valido (es: `3`)
+  - Clicca su **Execute**
+  - Ricevi i dettagli della riparazione:
+
+```json
+{ "repairId": 3, "carId": 1, "repairDate": "2023-01-10", "description": "Cambio olio" }
+```
+
+### 2️⃣ Prova in Postman
+- Crea una nuova richiesta: `{{base_url}}/cars/:carId/repairs`
+  - Inserisci il valore di `carId` nei Path Variables (es: `1`)
+  - Premi **Send**
+  - Ricevi la lista delle riparazioni
+  - Salva la richiesta come `Get all repairs`
+
+- Crea una nuova richiesta: `{{base_url}}/cars/:carId/repairs/:repairId`
+  - Inserisci i valori di `carId` e `repairId` nei Path Variables (es: `1` e `3`)
+  - Premi **Send**
+  - Ricevi i dettagli della riparazione
+  - Salva la richiesta come `Get repair for a car`
+
+### 3️⃣ Errori comuni
+- Se ometti un parametro obbligatorio, riceverai un errore **400 Bad Request**
+- Se usi un repairId che non appartiene a quell’auto, riceverai **404 Not Found**
+- I path parameters sono fondamentali per identificare la risorsa giusta
+
+### 4️⃣ Consigli pratici
+- Usa i Path Variables di Postman per cambiare facilmente i parametri
+- Salva sempre le richieste nella Collection per riutilizzarle
+- Importa la Collection e l’ambiente forniti per velocizzare i test
+
+> 💡 **Nota didattica:**
+> - Gli endpoint annidati (`/cars/{carId}/repairs/{repairId}`) sono comuni per risorse collegate
+> - Le risposte possono essere più dettagliate quando richiedi una singola risorsa
+> - Gestire correttamente i parametri è essenziale per lavorare con le API REST
+
+---
+
+## ❌ Invalid JSON: errori comuni e come risolverli
+
+Quando lavori con le API, uno degli errori più frequenti è inviare JSON non valido. Ecco cosa significa e come evitarlo.
+
+### 🔎 Cos’è un JSON non valido?
+- Il JSON deve rispettare regole precise di sintassi (standard)
+- Se non segui queste regole, il server non riuscirà a capire il messaggio
+- Il server non corregge il tuo JSON: devi inviare dati corretti
+
+### ⚠️ Errori comuni
+1. **Stringhe senza doppie virgolette**
+   - ❌ `{ "firstname": John }` (non valido)
+   - ✅ `{ "firstname": "John" }` (valido)
+2. **Uso di virgolette singole**
+   - ❌ `{ 'firstname': 'John' }` (non valido)
+   - ✅ `{ "firstname": "John" }` (valido)
+3. **Mancanza di virgole tra coppie chiave/valore**
+   - ❌ `{ "firstname": "John" "age": 29 }` (non valido)
+   - ✅ `{ "firstname": "John", "age": 29 }` (valido)
+4. **Virgola finale non necessaria**
+   - ❌ `{ "firstname": "John", "age": 29, }` (non valido)
+   - ✅ `{ "firstname": "John", "age": 29 }` (valido)
+5. **Parentesi graffe non chiuse**
+   - ❌ `{ "contact": { "email": "john@example.com" }` (non valido)
+   - ✅ `{ "contact": { "email": "john@example.com" } }` (valido)
+
+### 🛠️ Come validare il JSON
+- Postman ha un validatore integrato: se il JSON è errato, vedrai un avviso rosso nell’editor
+- Se invii JSON non valido, il server potrebbe restituire una risposta nulla o un errore
+- Puoi usare siti come [jsonlint.com](https://jsonlint.com) per validare e formattare il tuo JSON
+
+### 🧑‍💻 Esempio pratico in Postman
+- Se invii JSON non valido, Postman ti mostra l’errore (es: “expected comma” o “value expected”)
+- Se la risposta contiene `json: null`, significa che il server non ha capito i dati
+- Correggi l’errore seguendo le regole sopra
+
+### 💡 Consigli didattici
+- Controlla sempre che non ci siano avvisi rossi nell’editor di Postman
+- Usa validator online se non riesci a trovare l’errore
+- Un JSON valido è fondamentale per lavorare con le API
+
+> Se la tua richiesta non funziona, controlla prima la validità del JSON!
+
+---
+
+## 🚗 Come creare una POST request
+
+Vediamo come aggiungere una nuova auto alla Car Fleet Management API usando Postman.
+
+### 1️⃣ Consulta la documentazione Swagger
+- Trova l’endpoint `POST /cars` (serve per aggiungere una nuova auto)
+- Swagger mostra la struttura JSON richiesta per il body della richiesta
+
+### 2️⃣ Crea la richiesta in Postman
+- Apri una nuova tab in Postman
+- Inserisci l’URL: `{{base_url}}/cars`
+- Imposta il metodo su **POST**
+- Vai su **Body** > seleziona **raw** > scegli **JSON** dal menu a tendina
+- Inserisci il JSON della nuova auto, ad esempio:
+
+```json
+{
+  "build": 0,
+  "id": 0,
+  "manufacturer": "string",
+  "model": "string"
+}
+```
+
+- Premi **Send**
+- La risposta conterrà la nuova auto, inclusa l’ID generata dal server:
+
+```json
+{
+  "build": 0,
+  "id": 0,
+  "manufacturer": "string",
+  "model": "string"
+}
+```
+
+### 3️⃣ Note pratiche
+- L’ID non è obbligatoria: viene generata dal server
+- Puoi aggiungere più auto ripetendo la richiesta con dati diversi
+- Dopo aver aggiunto una nuova auto, puoi fare una GET su `/cars` per vedere la lista aggiornata
+
+### 4️⃣ Salva la richiesta
+- Salva la richiesta come `Add new car` nella tua Collection
+
+> 💡 **Nota didattica:**
+> - Il metodo **POST** serve per creare nuove risorse
+> - Il body deve essere in formato JSON valido
+> - Postman ti aiuta a formattare e validare il JSON
+
+Nella prossima parte vedremo come gestire errori comuni nelle richieste POST e come modificare una risorsa con PUT.
+
+---
+
+## ⚠️ Common errors nelle API
+
+Quando lavori con le API e Postman, ci sono alcuni errori tipici che puoi incontrare. Ecco i più comuni e come evitarli:
+
+### 1️⃣ Errore di path (404 Not Found)
+- Se scrivi l’endpoint sbagliato (es: `/car` invece di `/cars`), riceverai **404 Not Found**
+- Le API sono case sensitive: `/Cars` ≠ `/cars`
+- Controlla sempre la documentazione e copia l’URL esatto
+
+### 2️⃣ Errori nei nomi dei campi JSON
+- Se usi un campo con nome sbagliato (es: `Manufacturer` invece di `manufacturer`), il server potrebbe:
+  - Restituire un errore
+  - Ignorare il campo e non salvarlo
+- I nomi dei campi devono essere identici a quelli richiesti dalla documentazione
+
+### 3️⃣ Errori di sintassi JSON
+- Mancanza di virgole, virgolette, parentesi graffe
+- Postman mostra un avviso rosso se il JSON non è valido
+- Il server restituirà **400 Bad Request** se il JSON è errato
+
+### 4️⃣ Consigli pratici
+- Copia e incolla i nomi dei campi e gli endpoint dalla documentazione
+- Se qualcosa non funziona, riparti da zero e ricostruisci la richiesta
+- Fai attenzione a maiuscole/minuscole e alla sintassi
+- Se ricevi un errore, controlla prima la validità del JSON e la correttezza dell’endpoint
+
+> 💡 Sbagliare fa parte del processo di apprendimento! Più errori risolvi, più diventi esperto nell’uso delle API.
+
+---
+
+## 🏋️‍♂️ Assignment - POST
+
+Metti in pratica la creazione di una riparazione per un’auto tramite due endpoint diversi:
+- `POST /cars/repairs` (aggiungi una riparazione specificando il carId nel body)
+- `POST /cars/{carId}/repairs` (aggiungi una riparazione specificando il carId nell’URL)
+
+### Obiettivi
+- Consulta la documentazione Swagger per vedere la struttura richiesta
+- Prova entrambi gli endpoint in Postman
+- Presta attenzione a dove inserire il carId (body o URL)
+- Salva le richieste nella tua Collection
+
+---
+
+## ✅ Assignment solution - POST
+
+### 1️⃣ Endpoint: `POST /cars/repairs`
+- In Postman, crea una nuova richiesta `POST` su `{{base_url}}/cars/repairs`
+- Nel body (JSON), inserisci:
+
+```json
+{
+  "carId": 4,
+  "repairDate": "2025-12-15",
+  "description": "Cambio olio"
+}
+```
+
+- Premi **Send**: la risposta confermerà l’aggiunta della riparazione
+- Puoi verificare con una GET su `/cars/4/repairs` che la riparazione sia stata aggiunta
+
+### 2️⃣ Endpoint: `POST /cars/{carId}/repairs`
+- Duplica la richiesta precedente
+- Cambia l’URL in `{{base_url}}/cars/4/repairs` (sostituisci `4` con l’ID desiderato)
+- Nel body (JSON), inserisci solo i dati della riparazione (senza carId):
+
+```json
+{
+  "repairDate": "2025-12-16",
+  "description": "Cambio pneumatici"
+}
+```
+
+- Premi **Send**: la risposta confermerà l’aggiunta della riparazione
+- Verifica con una GET su `/cars/4/repairs` che la riparazione sia presente
+
+### 🔄 Differenze tra i due endpoint
+- Nel primo caso, il carId è nel body
+- Nel secondo caso, il carId è nell’URL
+- Il risultato è lo stesso: una riparazione associata all’auto
+
+### 💡 Consigli didattici
+- Segui la documentazione per capire dove inserire i parametri
+- Prova entrambe le modalità per capire le differenze
+- Salva le richieste per riutilizzarle e testare altri casi
+
+> Sperimenta, sbaglia e impara: è il modo migliore per diventare esperto con le API!
+
+---
+
+## 🔄 GET vs POST & Cos’è una Cache
+
+### 🚙 GET
+- Serve per **ottenere dati** dal server (es: lista auto, dettagli riparazione)
+- I parametri si specificano nell’URL (query o path parameters)
+- Non ha un body
+- Può essere **cacheata**: la risposta può essere salvata per richieste future
+
+### 🛠️ POST
+- Serve per **creare nuovi dati** (es: aggiungere auto, aggiungere riparazione)
+- I parametri possono essere sia nell’URL che nel body
+- Il body contiene i dati da creare (tipicamente in JSON)
+- **Non viene cacheata**: ogni richiesta crea una nuova risorsa
+
+### 🗄️ Cos’è una cache?
+- Un sistema che memorizza le risposte più richieste per velocizzare le future richieste
+- Quando un client fa una richiesta GET, la risposta può essere salvata nella cache
+- Se la stessa richiesta viene fatta di nuovo, la cache restituisce la risposta senza interrogare il database principale
+- Riduce il carico sul server e velocizza le risposte
+
+#### Schema semplificato:
+```
+Client → Cache → Server → Database
+```
+- Se la cache ha la risposta, la invia subito al client
+- Se la cache non ha la risposta, chiede al server/database e poi la memorizza
+
+### 💡 Perché solo GET è cacheabile?
+- GET recupera dati che possono essere uguali per più utenti
+- POST crea nuovi dati: la risposta è unica per ogni richiesta, quindi non ha senso cachearla
+
+> **In sintesi:**
+> - Usa GET per leggere dati, POST per crearli
+> - Solo GET può essere cacheata
+> - La cache rende le API più veloci e scalabili
+
+---
+
+## ✏️ Come creare una PUT request
+
+Vediamo come aggiornare una risorsa (auto) esistente usando il metodo PUT in Postman.
+
+### 1️⃣ Consulta la documentazione Swagger
+- Trova l’endpoint `PUT /cars` (serve per aggiornare un’auto)
+- La documentazione mostra la struttura JSON richiesta
+
+### 2️⃣ Crea la richiesta in Postman
+- Duplica la richiesta GET o POST su `/cars`
+- Cambia il metodo in **PUT**
+- Vai su **Body** > seleziona **raw** > scegli **JSON**
+- Incolla l’oggetto auto che vuoi aggiornare, ad esempio:
+
+```json
+{
+  "id": 3,
+  "manufacturer": "Tesla",
+  "model": "Cybertruck",
+  "build": 2021
+}
+```
+
+- Premi **Send**
+- La risposta confermerà l’aggiornamento dell’auto
+- Verifica con una GET su `/cars` che l’auto sia stata aggiornata
+
+### 3️⃣ Regole importanti per PUT
+- Devi inviare **tutti i dati** della risorsa che vuoi aggiornare
+- Devi includere l’**ID** nel body: senza ID la richiesta non è valida
+- L’ID deve esistere nel database, altrimenti ricevi **404 Not Found**
+
+### 4️⃣ Nota su POST vs PUT
+- Alcune API permettono di aggiornare anche con POST, ma non è una regola
+- PUT è il metodo corretto per aggiornare una risorsa esistente
+
+### 💡 Consigli didattici
+- Copia la struttura dell’oggetto dalla risposta GET per evitare errori
+- Se ricevi un errore, controlla che l’ID sia presente e corretto
+- Salva la richiesta come `Update car` nella tua Collection
+
+> Usa PUT per aggiornare risorse esistenti, POST per crearne di nuove!
+
 
